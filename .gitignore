@@ -1,0 +1,30 @@
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+venv/
+env/
+ENV/
+*.egg-info/
+.git_author_backup/
+
+# Large Datasets & Checkpoint Weights
+imagenet/
+data/
+*.pth
+*.pt
+*.ckpt
+*.tar
+*.gz
+
+# Keep only the small group starter pack zip
+*.zip
+!Custom_MCTF/MCTF_Group_Pack.zip
+
+# Jupyter Checkpoints & IDEs
+.ipynb_checkpoints/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
