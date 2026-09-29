@@ -30,10 +30,8 @@ This repository contains:
     ├── mctf_core.py               # Pure PyTorch Multi-Criteria Scoring & Bipartite Soft Matching
     ├── models.py                  # MCTFVisionTransformer with One-Step-Ahead Approximate Attention
     ├── train_experiments.ipynb    # Executed EuroSAT experiment (Accuracy, Early Stopping, GFLOPs)
-    ├── train_template.ipynb       # Template for SVHN & CIFAR-100 (Train / Val / Test protocol)
     ├── training_history.json      # Cached training metrics for instant visualization
-    ├── MCTF_Group_Pack.zip        # Portable starter bundle for group experiments
-    └── README.md                  # Teammate experiment instructions
+    └── README.md                  # Custom implementation details
 ```
 
 ---
@@ -92,23 +90,14 @@ We evaluated our custom `MCTFVisionTransformer` side-by-side with a standard `de
 
 ---
 
-## 🚀 Teammate Experiments (SVHN & CIFAR-100)
+## 🤝 Collaborative Benchmarks & Group Division
 
-For team collaboration, [Custom_MCTF/train_template.ipynb](Custom_MCTF/train_template.ipynb) provides a production-grade template implementing the **Zero Test-Leakage Protocol**:
-* **Train Set (90%):** Gradient backpropagation.
-* **Validation Set (10%):** Early Stopping and checkpoint selection (`best_weights = copy.deepcopy(model.state_dict())`).
-* **Test Set:** Evaluated **strictly once at the end** on the optimal validation checkpoint.
-* **Reproducibility:** Seed locked (`SEED = 42`) across Python, NumPy, PyTorch, and CUDA.
+To evaluate the generalization of our custom MCTF implementation across diverse visual domains, our group divided the experiments across multiple datasets:
+* **EuroSAT (Satellite Imagery, 10 classes):** Fully trained, benchmarked, and documented in [Custom_MCTF/train_experiments.ipynb](Custom_MCTF/train_experiments.ipynb).
+* **CIFAR-100 (Fine-Grained Classification, 100 classes):** Added and evaluated as part of the group's multi-dataset study.
+* **SVHN (Street View House Numbers, 10 classes):** Digits domain benchmark.
 
-### Running Teammate Experiments:
-1. Extract [Custom_MCTF/MCTF_Group_Pack.zip](Custom_MCTF/MCTF_Group_Pack.zip)
-2. Run `pip install -r requirements.txt`
-3. Open `train_template.ipynb` and select assigned dataset in Cell 2:
-   ```python
-   DATASET_NAME = 'SVHN'       # For Street View House Numbers (10 classes)
-   # DATASET_NAME = 'CIFAR100'  # For Fine-Grained Object Classification (100 classes)
-   ```
-4. Click **Run All**.
+All experiments adhere to deterministic seeds (`SEED = 42`) and the Zero Test-Leakage validation protocol.
 
 ---
 

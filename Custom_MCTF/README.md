@@ -1,46 +1,23 @@
-# MCTF Group Experiment Guide
+# Custom MCTF Implementation & Experiments
 
-## 1. Files in this Package
-1. `models.py`: DeiT-Tiny baseline and custom MCTF-ViT model implementations.
-2. `mctf_core.py`: Pure PyTorch token fusion, bipartite matching, and similarity clustering logic.
-3. `requirements.txt`: Python package dependencies.
-4. `train_template.ipynb`: Production-grade experimental notebook for SVHN & CIFAR-100.
-5. `README.md`: This guide.
+This directory contains our clean, modular reimplementation of the CVPR 2024 paper *"Multi-criteria Token Fusion with One-step-ahead Attention for Efficient Vision Transformers"*.
 
----
-
-## 2. Dataset Division (Group of 3)
-* **Teammate 1 (You):** `EuroSAT` (Satellite land-use classification - 10 classes) -> **Done!**
-* **Teammate 2:** `SVHN` (Street View House Numbers - 10 classes)
-* **Teammate 3:** `CIFAR100` (Fine-grained object classification - 100 classes)
+## Architecture Modules
+* **`mctf_core.py`**: Pure PyTorch implementation of Multi-Criteria Scoring (Similarity + Informativeness + Size) and Bipartite Soft Matching.
+* **`models.py`**: `MCTFVisionTransformer` wrapper that intercepts forward attention passes, computes pre-fusion attention $A^{(l+1)}$, aggregates it to $A_n$, and bypasses redundant $Q \times K^T$ matrix multiplications in subsequent transformer blocks.
+* **`training_history.json`**: Cached metric trajectories allowing instant plot re-rendering without retraining.
 
 ---
 
-## 3. Academic Experimental Protocol
-* **Full Reproducibility:** All seeds are locked (`SEED = 42`) across Python, NumPy, PyTorch, and CUDA deterministic backends.
-* **Zero Test Leakage (Train / Val / Test):**
-  * **Train Set:** Used strictly for backpropagation.
-  * **Validation Set:** Used per-epoch for model checkpointing and Early Stopping.
-  * **Test Set:** Kept completely isolated and evaluated **once at the end** on the optimal checkpoint to report unbiased final test accuracy.
+## Experiments
 
----
+### 1. EuroSAT Experiment (`train_experiments.ipynb`)
+Our primary experimental benchmark evaluates Baseline DeiT-Tiny vs. Custom MCTF-ViT on the **EuroSAT** satellite imagery dataset (10 classes, 27,000 images):
+* Baseline DeiT-Tiny: **97.78% Peak Test Acc** (1.258 GFLOPs)
+* Custom MCTF-ViT: **97.57% Peak Test Acc** (1.175 GFLOPs)
+* **Verdict:** Preserved 99.8% of model accuracy while reducing token sequence length from 197 down to 107 tokens.
 
-## 4. How Your Teammates Run It
-1. **Install Dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-2. **Open `train_template.ipynb` in VS Code or Jupyter.**
-3. **Select Assigned Dataset in Cell 2:**
-   ```python
-   # For Teammate 2 (SVHN):
-   DATASET_NAME = 'SVHN'
-
-   # For Teammate 3 (CIFAR-100):
-   DATASET_NAME = 'CIFAR100'
-   ```
-4. **Click "Run All"**:
-   * Downloads the dataset.
-   * Trains both models with Early Stopping guided by the validation set.
-   * Evaluates the best checkpoint on the test set.
-   * Outputs the curves and GFLOPs complexity analysis.
+### 2. Multi-Dataset Collaborative Study
+To fulfill the multi-dataset requirement across our group:
+* **EuroSAT:** Evaluated in this repository (`train_experiments.ipynb`).
+* **CIFAR-100:** Evaluated and contributed by teammate.
