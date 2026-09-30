@@ -24,6 +24,8 @@ data/
 
 # Jupyter Checkpoints & IDEs
 .ipynb_checkpoints/
+anaconda_projects/
+*.db
 .vscode/
 .idea/
 .DS_Store
