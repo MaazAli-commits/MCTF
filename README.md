@@ -31,6 +31,7 @@ This repository contains:
     ├── models.py                  # MCTFVisionTransformer with One-Step-Ahead Approximate Attention
     ├── EuroSAT_nb.ipynb           # Executed EuroSAT experiment (Accuracy, Early Stopping, GFLOPs)
     ├── cifar10_nb.ipynb           # Executed CIFAR-100 experiment (Multi-class generalization)
+    ├── SVHN_nb.ipynb              # Executed SVHN experiment (House numbers digit benchmark)
     ├── training_history.json      # Cached training metrics for instant visualization
     └── README.md                  # Custom implementation details
 ```
@@ -84,11 +85,11 @@ To systematically evaluate the generalization of our custom MCTF implementation,
 
 ### 🏆 Multi-Dataset Comparative Summary
 
-| Benchmark Dataset | Visual Domain | Classes | Baseline DeiT-Tiny Acc | Custom MCTF-ViT Acc | Accuracy Delta ($\Delta$) | GFLOPs (Baseline $\rightarrow$ MCTF) | Token Reduction | Status |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **EuroSAT** | Satellite Imagery | 10 | 97.78% | **97.57%** | **$-0.21\%$** | 1.258 $\rightarrow$ **1.175** (-6.62%) | 197 $\rightarrow$ **107** (-45.7%) | ✅ Completed |
-| **CIFAR-100** | Fine-Grained Objects | 100 | 78.72% | **76.52%** | **$-2.20\%$** | 1.258 $\rightarrow$ **1.175** (-6.62%) | 197 $\rightarrow$ **107** (-45.7%) | ✅ Completed |
-| **SVHN** | Cropped Digits | 10 | Domain Benchmark | Domain Benchmark | Domain Eval | 1.258 $\rightarrow$ **1.175** (-6.62%) | 197 $\rightarrow$ **107** (-45.7%) | 📦 Ingested Suite |
+| Benchmark Dataset | Visual Domain | Classes | Baseline DeiT-Tiny Acc | Custom MCTF-ViT Acc | Accuracy Delta ($\Delta$) | Token Reduction | Status |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **EuroSAT** | Satellite Remote Sensing | 10 | 97.78% | **97.57%** | **$-0.21\%$** | 197 $\rightarrow$ **107** (-45.7%) | ✅ Verified |
+| **SVHN** | Street View House Digits | 10 | 96.25% | **95.56%** | **$-0.69\%$** | 197 $\rightarrow$ **107** (-45.7%) | ✅ Verified |
+| **CIFAR-100** | Fine-Grained Natural | 100 | 78.72% | **76.52%** | **$-2.20\%$** | 197 $\rightarrow$ **107** (-45.7%) | ✅ Verified |
 
 ---
 
@@ -99,15 +100,17 @@ Evaluated on **27,000 Sentinel-2 satellite images** across 10 land cover classes
 * **Key Finding:** Custom MCTF preserved **99.8% of the baseline accuracy** ($\Delta = 0.21\%$, representing only 11 images out of 5,400) while reducing sequence length by **45.7%** and reducing GFLOPs by **6.62%**.
 * **Domain Behavior:** Satellite images feature high background spatial redundancy (forests, water bodies, agricultural fields), making them an ideal match for MCTF bipartite token merging.
 
-### 2. CIFAR-100 Fine-Grained Classification (`cifar10_nb.ipynb`)
+### 2. SVHN Street View House Numbers (`SVHN_nb.ipynb`)
+Evaluated on **73,257 training and 26,032 testing images** of real-world cropped house digits with natural background clutter and diverse illumination.
+* **Baseline DeiT-Tiny:** 95.71% Peak Val Acc | **96.25% Final Unbiased Test Acc** (Early stopped at epoch 13)
+* **Custom MCTF-ViT:** 95.10% Peak Val Acc | **95.56% Final Unbiased Test Acc** (Early stopped at epoch 19)
+* **Key Finding:** Custom MCTF preserved nearly the entire discriminative capacity on sharp digit strokes with only a **0.69% accuracy delta**, verifying that the one-step-ahead attention informativeness score protects vital character edges while merging surrounding wall/curb backgrounds.
+
+### 3. CIFAR-100 Fine-Grained Classification (`cifar10_nb.ipynb`)
 Evaluated under extreme label complexity (**100 distinct classes**, 50,000 training images, 10,000 test images) with a 90/10 Train/Validation split and unbiased Test evaluation.
 * **Baseline DeiT-Tiny:** 78.88% Peak Val Acc | **78.72% Final Unbiased Test Acc** (Early stopped at epoch 15)
 * **Custom MCTF-ViT:** 75.98% Peak Val Acc | **76.52% Final Unbiased Test Acc** (Early stopped at epoch 12)
 * **Key Finding:** On 100 fine-grained classes where visual differences are subtle, MCTF retains solid feature representation within **2.20%** of the uncompressed model while maintaining significant FLOPs savings and converging 3 epochs earlier.
-
-### 3. SVHN Street View House Numbers
-Evaluated on real-world cropped digit images with varying natural backgrounds and lighting conditions.
-* Ingested into the benchmark data pipeline to assess token fusion sensitivity to sharp localized numeric features vs. surrounding architectural textures.
 
 ---
 
@@ -115,10 +118,8 @@ Evaluated on real-world cropped digit images with varying natural backgrounds an
 
 Our group divided the implementation and experimental evaluation as follows:
 * **Maaz Ali:** Official ImageNet-1K reproduction, modular `models.py` & `mctf_core.py` refactoring, and EuroSAT benchmark pipeline (`EuroSAT_nb.ipynb`).
-* **Anirudh Sandeep Gupta:** CIFAR-100 multi-class generalization experiment and 3-way validation protocol (`cifar10_nb.ipynb`).
-* **Vidya Karthika:** Comparative efficiency analysis, mathematical modeling, and multi-criteria weight ablation framework.
-
-All experiments adhere to deterministic seeds (`SEED = 42`) and the Zero Test-Leakage validation protocol.
+* **Anirudh Sandeep Gupta:** SVHN benchmark pipeline (`SVHN_nb.ipynb`) and digit domain evaluation.
+* **Vidya Karthika:** CIFAR-100 multi-class generalization experiment (`cifar10_nb.ipynb`) and comparative efficiency analysis.
 
 All experiments adhere to deterministic seeds (`SEED = 42`) and the Zero Test-Leakage validation protocol.
 

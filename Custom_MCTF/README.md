@@ -23,6 +23,9 @@ Evaluates the model under dense 100-class label complexity:
 * **Custom MCTF-ViT:** 75.98% Peak Val Acc | **76.52% Final Test Acc** (Early stopped at epoch 12)
 * **Verdict:** Robust convergence within 2.2% of baseline while reducing quadratic self-attention FLOPs.
 
-### 3. SVHN Street View House Numbers
-* Ingested into the benchmark data pipeline (`./data/`) to assess token fusion sensitivity to cropped digits vs. real-world natural background textures.
+### 3. SVHN Street View House Numbers (`SVHN_nb.ipynb`)
+Evaluates token fusion behavior on cropped house digits (10 classes):
+* **Baseline DeiT-Tiny:** 95.71% Peak Val Acc | **96.25% Final Test Acc** (Early stopped at epoch 13)
+* **Custom MCTF-ViT:** 95.10% Peak Val Acc | **95.56% Final Test Acc** (Early stopped at epoch 19)
+* **Verdict:** Preserved 99.3% of baseline performance ($\Delta = -0.69\%$), showing informativeness scores successfully protect sharp digit edges.
 
