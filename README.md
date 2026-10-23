@@ -85,11 +85,11 @@ To systematically evaluate the generalization of our custom MCTF implementation,
 
 ### 🏆 Multi-Dataset Comparative Summary
 
-| Benchmark Dataset | Visual Domain | Classes | Baseline DeiT-Tiny Acc | Custom MCTF-ViT Acc | Accuracy Delta ($\Delta$) | Token Reduction | Status |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **EuroSAT** | Satellite Remote Sensing | 10 | 97.78% | **97.57%** | **$-0.21\%$** | 197 $\rightarrow$ **107** (-45.7%) | ✅ Verified |
-| **SVHN** | Street View House Digits | 10 | 96.25% | **95.56%** | **$-0.69\%$** | 197 $\rightarrow$ **107** (-45.7%) | ✅ Verified |
-| **CIFAR-100** | Fine-Grained Natural | 100 | 78.72% | **76.52%** | **$-2.20\%$** | 197 $\rightarrow$ **107** (-45.7%) | ✅ Verified |
+| Benchmark Dataset | Visual Domain | Classes | Baseline DeiT-Tiny Acc | Custom MCTF-ViT Acc | Accuracy Delta ($\Delta$) | GFLOPs (Baseline $\rightarrow$ MCTF) | Token Reduction | Status |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **EuroSAT** | Satellite Remote Sensing | 10 | 97.78% | **97.57%** | **$-0.21\%$** | 1.258 $\rightarrow$ **1.175** (-6.62%) | 197 $\rightarrow$ **107** (-45.7%) | ✅ Verified |
+| **SVHN** | Street View House Digits | 10 | 96.25% | **95.56%** | **$-0.69\%$** | 1.258 $\rightarrow$ **1.175** (-6.62%) | 197 $\rightarrow$ **107** (-45.7%) | ✅ Verified |
+| **CIFAR-100** | Fine-Grained Natural | 100 | 78.72% | **76.52%** | **$-2.20\%$** | 1.258 $\rightarrow$ **1.175** (-6.62%) | 197 $\rightarrow$ **107** (-45.7%) | ✅ Verified |
 
 ---
 
@@ -102,9 +102,9 @@ Evaluated on **27,000 Sentinel-2 satellite images** across 10 land cover classes
 
 ### 2. SVHN Street View House Numbers (`SVHN_nb.ipynb`)
 Evaluated on **73,257 training and 26,032 testing images** of real-world cropped house digits with natural background clutter and diverse illumination.
-* **Baseline DeiT-Tiny:** 95.71% Peak Val Acc | **96.25% Final Unbiased Test Acc** (Early stopped at epoch 13)
-* **Custom MCTF-ViT:** 95.10% Peak Val Acc | **95.56% Final Unbiased Test Acc** (Early stopped at epoch 19)
-* **Key Finding:** Custom MCTF preserved nearly the entire discriminative capacity on sharp digit strokes with only a **0.69% accuracy delta**, verifying that the one-step-ahead attention informativeness score protects vital character edges while merging surrounding wall/curb backgrounds.
+* **Baseline DeiT-Tiny:** 95.71% Peak Val Acc | **96.25% Final Unbiased Test Acc** | 1.258 GFLOPs (Early stopped at epoch 13)
+* **Custom MCTF-ViT:** 95.10% Peak Val Acc | **95.56% Final Unbiased Test Acc** | 1.175 GFLOPs (Early stopped at epoch 19)
+* **Key Finding:** Custom MCTF preserved **99.3% of baseline performance** ($\Delta = -0.69\%$) while reducing GFLOPs by **6.62%** and cutting tokens by **45.7%**. This confirms that the one-step-ahead attention informativeness score protects sharp digit edges while successfully merging background wall clutter.
 
 ### 3. CIFAR-100 Fine-Grained Classification (`cifar10_nb.ipynb`)
 Evaluated under extreme label complexity (**100 distinct classes**, 50,000 training images, 10,000 test images) with a 90/10 Train/Validation split and unbiased Test evaluation.

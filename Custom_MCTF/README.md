@@ -25,7 +25,7 @@ Evaluates the model under dense 100-class label complexity:
 
 ### 3. SVHN Street View House Numbers (`SVHN_nb.ipynb`)
 Evaluates token fusion behavior on cropped house digits (10 classes):
-* **Baseline DeiT-Tiny:** 95.71% Peak Val Acc | **96.25% Final Test Acc** (Early stopped at epoch 13)
-* **Custom MCTF-ViT:** 95.10% Peak Val Acc | **95.56% Final Test Acc** (Early stopped at epoch 19)
-* **Verdict:** Preserved 99.3% of baseline performance ($\Delta = -0.69\%$), showing informativeness scores successfully protect sharp digit edges.
+* **Baseline DeiT-Tiny:** 95.71% Peak Val Acc | **96.25% Final Test Acc** | 1.258 GFLOPs (Early stopped at epoch 13)
+* **Custom MCTF-ViT:** 95.10% Peak Val Acc | **95.56% Final Test Acc** | 1.175 GFLOPs (Early stopped at epoch 19)
+* **Verdict:** Preserved 99.3% of baseline performance ($\Delta = -0.69\%$) while reducing GFLOPs by **6.62%** and cutting tokens by **45.7%**, proving informativeness scores successfully protect sharp digit edges.
 
