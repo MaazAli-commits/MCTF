@@ -17,11 +17,11 @@ Our primary experimental benchmark evaluates Baseline DeiT-Tiny vs. Custom MCTF-
 * **Custom MCTF-ViT:** 97.57% Peak Test Acc (1.175 GFLOPs, 107 tokens)
 * **Verdict:** Preserved 99.8% of model accuracy ($\Delta = -0.21\%$) while reducing sequence length by 45.7% and saving 6.62% GFLOPs.
 
-### 2. CIFAR-100 Fine-Grained Classification (`cifar10_nb.ipynb`)
+### 2. CIFAR-100 Fine-Grained Classification (`CIFAR100_nb.ipynb`)
 Evaluates the model under dense 100-class label complexity:
-* **Baseline DeiT-Tiny:** 78.88% Peak Val Acc | **78.72% Final Test Acc** (Early stopped at epoch 15)
-* **Custom MCTF-ViT:** 75.98% Peak Val Acc | **76.52% Final Test Acc** (Early stopped at epoch 12)
-* **Verdict:** Robust convergence within 2.2% of baseline while reducing quadratic self-attention FLOPs.
+* **Baseline DeiT-Tiny:** 78.88% Peak Val Acc | **78.72% Final Test Acc** | 1.258 GFLOPs (Early stopped at epoch 15)
+* **Custom MCTF-ViT:** 75.98% Peak Val Acc | **76.52% Final Test Acc** | 1.175 GFLOPs (Early stopped at epoch 12)
+* **Verdict:** Robust convergence within 2.2% of baseline while reducing quadratic self-attention FLOPs by **6.62%** and sequence length by **45.7%**.
 
 ### 3. SVHN Street View House Numbers (`SVHN_nb.ipynb`)
 Evaluates token fusion behavior on cropped house digits (10 classes):

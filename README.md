@@ -30,7 +30,7 @@ This repository contains:
     ├── mctf_core.py               # Pure PyTorch Multi-Criteria Scoring & Bipartite Soft Matching
     ├── models.py                  # MCTFVisionTransformer with One-Step-Ahead Approximate Attention
     ├── EuroSAT_nb.ipynb           # Executed EuroSAT experiment (Accuracy, Early Stopping, GFLOPs)
-    ├── cifar10_nb.ipynb           # Executed CIFAR-100 experiment (Multi-class generalization)
+    ├── CIFAR100_nb.ipynb           # Executed CIFAR-100 experiment (Multi-class generalization)
     ├── SVHN_nb.ipynb              # Executed SVHN experiment (House numbers digit benchmark)
     ├── training_history.json      # Cached training metrics for instant visualization
     └── README.md                  # Custom implementation details
@@ -106,7 +106,7 @@ Evaluated on **73,257 training and 26,032 testing images** of real-world cropped
 * **Custom MCTF-ViT:** 95.10% Peak Val Acc | **95.56% Final Unbiased Test Acc** | 1.175 GFLOPs (Early stopped at epoch 19)
 * **Key Finding:** Custom MCTF preserved **99.3% of baseline performance** ($\Delta = -0.69\%$) while reducing GFLOPs by **6.62%** and cutting tokens by **45.7%**. This confirms that the one-step-ahead attention informativeness score protects sharp digit edges while successfully merging background wall clutter.
 
-### 3. CIFAR-100 Fine-Grained Classification (`cifar10_nb.ipynb`)
+### 3. CIFAR-100 Fine-Grained Classification (`CIFAR100_nb.ipynb`)
 Evaluated under extreme label complexity (**100 distinct classes**, 50,000 training images, 10,000 test images) with a 90/10 Train/Validation split and unbiased Test evaluation.
 * **Baseline DeiT-Tiny:** 78.88% Peak Val Acc | **78.72% Final Unbiased Test Acc** (Early stopped at epoch 15)
 * **Custom MCTF-ViT:** 75.98% Peak Val Acc | **76.52% Final Unbiased Test Acc** (Early stopped at epoch 12)
@@ -119,7 +119,7 @@ Evaluated under extreme label complexity (**100 distinct classes**, 50,000 train
 Our group divided the implementation and experimental evaluation as follows:
 * **Maaz Ali:** Official ImageNet-1K reproduction, modular `models.py` & `mctf_core.py` refactoring, and EuroSAT benchmark pipeline (`EuroSAT_nb.ipynb`).
 * **Anirudh Sandeep Gupta:** SVHN benchmark pipeline (`SVHN_nb.ipynb`) and digit domain evaluation.
-* **Vidya Karthika:** CIFAR-100 multi-class generalization experiment (`cifar10_nb.ipynb`) and comparative efficiency analysis.
+* **Vidya Karthika:** CIFAR-100 multi-class generalization experiment (`CIFAR100_nb.ipynb`) and comparative efficiency analysis.
 
 All experiments adhere to deterministic seeds (`SEED = 42`) and the Zero Test-Leakage validation protocol.
 
