@@ -9,15 +9,20 @@ This directory contains our clean, modular reimplementation of the CVPR 2024 pap
 
 ---
 
-## Experiments
+## Experiments & Multi-Dataset Benchmarks
 
-### 1. EuroSAT Experiment (`train_experiments.ipynb`)
+### 1. EuroSAT Land-Use Classification (`EuroSAT_nb.ipynb`)
 Our primary experimental benchmark evaluates Baseline DeiT-Tiny vs. Custom MCTF-ViT on the **EuroSAT** satellite imagery dataset (10 classes, 27,000 images):
-* Baseline DeiT-Tiny: **97.78% Peak Test Acc** (1.258 GFLOPs)
-* Custom MCTF-ViT: **97.57% Peak Test Acc** (1.175 GFLOPs)
-* **Verdict:** Preserved 99.8% of model accuracy while reducing token sequence length from 197 down to 107 tokens.
+* **Baseline DeiT-Tiny:** 97.78% Peak Test Acc (1.258 GFLOPs, 197 tokens)
+* **Custom MCTF-ViT:** 97.57% Peak Test Acc (1.175 GFLOPs, 107 tokens)
+* **Verdict:** Preserved 99.8% of model accuracy ($\Delta = -0.21\%$) while reducing sequence length by 45.7% and saving 6.62% GFLOPs.
 
-### 2. Multi-Dataset Collaborative Study
-To fulfill the multi-dataset requirement across our group:
-* **EuroSAT:** Evaluated in this repository (`train_experiments.ipynb`).
-* **CIFAR-100:** Evaluated and contributed by teammate.
+### 2. CIFAR-100 Fine-Grained Classification (`cifar10_nb.ipynb`)
+Evaluates the model under dense 100-class label complexity:
+* **Baseline DeiT-Tiny:** 78.88% Peak Val Acc | **78.72% Final Test Acc** (Early stopped at epoch 15)
+* **Custom MCTF-ViT:** 75.98% Peak Val Acc | **76.52% Final Test Acc** (Early stopped at epoch 12)
+* **Verdict:** Robust convergence within 2.2% of baseline while reducing quadratic self-attention FLOPs.
+
+### 3. SVHN Street View House Numbers
+* Ingested into the benchmark data pipeline (`./data/`) to assess token fusion sensitivity to cropped digits vs. real-world natural background textures.
+
